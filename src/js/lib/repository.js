@@ -1,5 +1,6 @@
 const config = require('./config.js');
-const axios = require('axios');
+const axios  = require('axios');
+const utils  = require('./utils.js');
 
 const repository = {
 
@@ -28,7 +29,7 @@ const repository = {
 
         client.get('me/top/artists', {params: params})
             .then(function (response) {
-                console.log(response);
+                utils.paint(response);
             })
             .catch(function (error) {
                 console.log(error);

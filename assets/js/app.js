@@ -1628,7 +1628,8 @@ module.exports = config;
 
 },{}],30:[function(require,module,exports){
 const config = require('./config.js');
-const axios = require('axios');
+const axios  = require('axios');
+const utils  = require('./utils.js');
 
 const repository = {
 
@@ -1657,7 +1658,7 @@ const repository = {
 
         client.get('me/top/artists', {params: params})
             .then(function (response) {
-                console.log(response);
+                utils.paint(response);
             })
             .catch(function (error) {
                 console.log(error);
@@ -1668,7 +1669,7 @@ const repository = {
 
 module.exports = repository;
 
-},{"./config.js":29,"axios":1}],31:[function(require,module,exports){
+},{"./config.js":29,"./utils.js":31,"axios":1}],31:[function(require,module,exports){
 const utils = {
     getHashParameter: function(parameter) {
         let result = null;
@@ -1683,6 +1684,24 @@ const utils = {
             });
 
         return result;
+    },
+
+    paint: function(tops) {
+        let artists = tops.data.items;
+
+        // TODO
+        for (let i = 0; i < artists.length; i++) {
+            let artist = artists[i];
+            let image = document.createElement("img");
+            console.log(artist);
+
+            image.setAttribute('src', artist.images[0].url);
+            image.setAttribute('width', 300);
+            image.setAttribute('height', 300);
+            image.setAttribute('alt', artist.name);
+
+            document.getElementById('app').appendChild(image);
+        }
     }
 };
 
