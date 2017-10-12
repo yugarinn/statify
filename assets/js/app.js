@@ -2244,13 +2244,18 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],29:[function(require,module,exports){
-const config     = require('./lib/config.js');
-const repository = require('./lib/repository');
-const stats      = require('./pages/stats.js');
+'use strict';
+
+var config = require('./lib/config.js');
+var repository = require('./lib/repository');
+var stats = require('./pages/stats.js');
 
 stats.init();
+
 },{"./lib/config.js":30,"./lib/repository":31,"./pages/stats.js":33}],30:[function(require,module,exports){
-const config = {
+'use strict';
+
+var config = {
     base_url: 'https://api.spotify.com/v1/',
     client_id: '2e5da53c63514cdd87f600eb18bffe66',
     client_secret: '2c6103794e824140aacb397dfa8438e0'
@@ -2259,42 +2264,37 @@ const config = {
 module.exports = config;
 
 },{}],31:[function(require,module,exports){
-const config = require('./config.js');
-const axios  = require('axios');
-const utils  = require('./utils.js');
+'use strict';
 
-const repository = {
+var config = require('./config.js');
+var axios = require('axios');
+var utils = require('./utils.js');
 
-    authorize: function() {
-        let auth_url = 'https://accounts.spotify.com/authorize?' +
-            'client_id=' + config.client_id +
-            '&response_type=' + 'token' +
-            '&redirect_uri=' + window.location.href +
-            '&state=' + Math.random().toString(36).substring(7) +
-            '&scope=' + 'user-top-read';
+var repository = {
+
+    authorize: function authorize() {
+        var auth_url = 'https://accounts.spotify.com/authorize?' + 'client_id=' + config.client_id + '&response_type=' + 'token' + '&redirect_uri=' + window.location.href + '&state=' + Math.random().toString(36).substring(7) + '&scope=' + 'user-top-read';
 
         window.location.replace(auth_url);
     },
 
-    getUserTops: function(token) {
-        let client = axios.create({
+    getUserTops: function getUserTops(token) {
+        var client = axios.create({
             baseURL: config.base_url,
             timeout: 1000,
-            headers: {'Authorization': 'Bearer ' + token}
+            headers: { 'Authorization': 'Bearer ' + token }
         });
 
-        let params = {
+        var params = {
             limit: 50,
             time_range: 'long_term'
         };
 
-        client.get('me/top/artists', {params: params})
-            .then(function (response) {
-                utils.paint(response);
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+        client.get('me/top/artists', { params: params }).then(function (response) {
+            utils.paint(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
     }
 
 };
@@ -2302,36 +2302,35 @@ const repository = {
 module.exports = repository;
 
 },{"./config.js":30,"./utils.js":32,"axios":1}],32:[function(require,module,exports){
-const Mustache = require('mustache');
+"use strict";
 
-const utils = {
-    getHashParameter: function(parameter) {
-        let result = null;
-        let tmp    = [];
+var Mustache = require('mustache');
 
-        location.hash
-            .substr(1)
-            .split("&")
-            .forEach(function (item) {
-                tmp = item.split("=");
-                if (tmp[0] === parameter) result = decodeURIComponent(tmp[1]);
-            });
+var utils = {
+    getHashParameter: function getHashParameter(parameter) {
+        var result = null;
+        var tmp = [];
+
+        location.hash.substr(1).split("&").forEach(function (item) {
+            tmp = item.split("=");
+            if (tmp[0] === parameter) result = decodeURIComponent(tmp[1]);
+        });
 
         return result;
     },
 
-    paint: function(tops) {
-        let artists = tops.data.items;
+    paint: function paint(tops) {
+        var artists = tops.data.items;
 
-        for (let i = 0; i < artists.length; i++) {
-            let artist      = artists[i];
+        for (var i = 0; i < artists.length; i++) {
+            var artist = artists[i];
             console.log(artist);
-            let container   = document.getElementById('topContainer');
-            let template    = document.getElementById('artistBoxTemplate').innerHTML;
+            var container = document.getElementById('topContainer');
+            var template = document.getElementById('artistBoxTemplate').innerHTML;
 
             Mustache.parse(template);
 
-            let rendered = Mustache.render(template, {
+            var rendered = Mustache.render(template, {
                 image: artist.images[0].url,
                 name: artist.name,
                 uri: artist.external_urls.spotify,
@@ -2346,23 +2345,24 @@ const utils = {
 module.exports = utils;
 
 },{"mustache":27}],33:[function(require,module,exports){
-const utils      = require('../lib/utils.js');
-const repository = require('./../lib/repository.js');
+'use strict';
 
-const stats = {
-    init: function() {
+var utils = require('../lib/utils.js');
+var repository = require('./../lib/repository.js');
+
+var stats = {
+    init: function init() {
         if (utils.getHashParameter('token_type')) {
-            let state = utils.getHashParameter('state');
-            let token = utils.getHashParameter('access_token');
+            var state = utils.getHashParameter('state');
+            var token = utils.getHashParameter('access_token');
 
-            let tops = repository.getUserTops(token);
+            var tops = repository.getUserTops(token);
         } else {
             repository.authorize();
         }
     },
 
-    paint: function(tops) {
-    }
+    paint: function paint(tops) {}
 };
 
 module.exports = stats;

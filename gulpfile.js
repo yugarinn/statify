@@ -5,9 +5,11 @@ const browserify  = require('browserify');
 const sass        = require('gulp-sass');
 const source      = require('vinyl-source-stream');
 const shell       = require('gulp-shell');
+const babelify    = require('babelify');
 
 gulp.task('browserify', function() {
     return browserify('./src/js/app.js')
+        .transform(babelify, {presets: ["es2015"]})
         .bundle()
         .pipe(source('app.js'))
         .pipe(gulp.dest('./assets/js/'));
