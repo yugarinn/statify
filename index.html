@@ -4,13 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+    <link rel="stylesheet" href="./assets/css/app.css">
     <title>Statify</title>
 </head>
 <body>
 
-    STATIFY
+    <div id="app">
 
-    <div id="app"></div>
+        <div class="page artists">
+
+            <div class="container">
+
+                <h1 class="h1 text-center">Your top artists</h1>
+
+                <div class="top-list__container" id="topContainer"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script id="artistBoxTemplate" type="x-tmpl-mustache">
+        <a href="{{ uri }}" target="_blank" rel="noopener">
+            <div class="artist-box mb10 mr10">
+                <div class="artist-box__image">
+                    <img src="{{ image }}" alt="{{ name }}">
+                </div>
+                <div class="artist-box__info">
+                    <span class="artist-box__info-number">{{ position }}</span> <span class="artist-box__info-separator">/</span>
+                    <span class="artist-box__info-name">{{ name }}</span>
+                </div>
+            </div>
+        </a>
+    </script>
 
     <script src="assets/js/app.js"></script>
 

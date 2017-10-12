@@ -1,3 +1,5 @@
+const Mustache = require('mustache');
+
 const utils = {
     getHashParameter: function(parameter) {
         let result = null;
@@ -17,18 +19,22 @@ const utils = {
     paint: function(tops) {
         let artists = tops.data.items;
 
-        // TODO
         for (let i = 0; i < artists.length; i++) {
-            let artist = artists[i];
-            let image = document.createElement("img");
+            let artist      = artists[i];
             console.log(artist);
+            let container   = document.getElementById('topContainer');
+            let template    = document.getElementById('artistBoxTemplate').innerHTML;
 
-            image.setAttribute('src', artist.images[0].url);
-            image.setAttribute('width', 300);
-            image.setAttribute('height', 300);
-            image.setAttribute('alt', artist.name);
+            Mustache.parse(template);
 
-            document.getElementById('app').appendChild(image);
+            let rendered = Mustache.render(template, {
+                image: artist.images[0].url,
+                name: artist.name,
+                uri: artist.external_urls.spotify,
+                position: i + 1
+            });
+
+            container.insertAdjacentHTML('beforeend', rendered);
         }
     }
 };

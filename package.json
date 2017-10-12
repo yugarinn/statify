@@ -8,6 +8,7 @@
     "gulp-shell": "^0.6.3",
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
+    "mustache": "^2.3.0",
     "vinyl-source-stream": "^1.1.0"
   }
 }

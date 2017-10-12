@@ -27,6 +27,7 @@ gulp.task('watch', function() {
     gulp.watch('./src/js/*/*.js', ['browserify']);
     gulp.watch('./src/js/*.js', ['browserify']);
     gulp.watch('./src/scss/*/*.scss', ['sass']);
+    gulp.watch('./src/scss/*.scss', ['sass']);
 });
 
 gulp.task('default', ['browserify', 'sass', 'serve', 'watch']);
