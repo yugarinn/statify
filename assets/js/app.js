@@ -2244,6 +2244,9 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],29:[function(require,module,exports){
+/*! PxLoader v1.0.1 | https://github.com/vdaguenet/pxloader-browserify */
+function PxLoaderTags(a){if(this.all=[],this.first=null,this.length=0,this.lookup={},a){if(Array.isArray(a))this.all=a.slice(0);else if("object"==typeof a)for(var b in a)a.hasOwnProperty(b)&&this.all.push(b);else this.all.push(a);this.length=this.all.length,this.length>0&&(this.first=this.all[0]);for(var c=0;c<this.length;c++)this.lookup[this.all[c]]=!0}}function PxLoader(a){a=a||{},this.settings=a,null==a.statusInterval&&(a.statusInterval=5e3),null==a.loggingDelay&&(a.loggingDelay=2e4),null==a.noProgressTimeout&&(a.noProgressTimeout=1/0);var b,c=[],d=[],e=Date.now(),f={QUEUED:0,WAITING:1,LOADED:2,ERROR:3,TIMEOUT:4},g=function(a){return null==a?[]:Array.isArray(a)?a:[a]};this.add=function(a){a.tags=new PxLoaderTags(a.tags),null==a.priority&&(a.priority=1/0),c.push({resource:a,status:f.QUEUED})},this.addProgressListener=function(a,b){d.push({callback:a,tags:new PxLoaderTags(b)})},this.addCompletionListener=function(a,b){d.push({tags:new PxLoaderTags(b),callback:function(b){b.completedCount===b.totalCount&&a(b)}})};var h=function(a){a=g(a);var b=function(b){for(var c=b.resource,d=1/0,e=0;e<c.tags.length;e++)for(var f=0;f<Math.min(a.length,d)&&!(c.tags.all[e]===a[f]&&d>f&&(d=f,0===d))&&0!==d;f++);return d};return function(a,c){var d=b(a),e=b(c);return e>d?-1:d>e?1:a.priority<c.priority?-1:a.priority>c.priority?1:0}};this.start=function(a){b=Date.now();var d=h(a);c.sort(d);for(var e=0,g=c.length;g>e;e++){var j=c[e];j.status=f.WAITING,j.resource.start(this)}setTimeout(i,100)};var i=function(){for(var b=!1,d=Date.now()-e,g=d>=a.noProgressTimeout,h=d>=a.loggingDelay,j=0,k=c.length;k>j;j++){var m=c[j];m.status===f.WAITING&&(m.resource.checkStatus&&m.resource.checkStatus(),m.status===f.WAITING&&(g?m.resource.onTimeout():b=!0))}h&&b&&l(),b&&setTimeout(i,a.statusInterval)};this.isBusy=function(){for(var a=0,b=c.length;b>a;a++)if(c[a].status===f.QUEUED||c[a].status===f.WAITING)return!0;return!1};var j=function(a,b){var g,h,i,j,l,m=null;for(g=0,h=c.length;h>g;g++)if(c[g].resource===a){m=c[g];break}if(null!=m&&m.status===f.WAITING)for(m.status=b,e=Date.now(),i=a.tags.length,g=0,h=d.length;h>g;g++)j=d[g],l=0===j.tags.length?!0:a.tags.intersects(j.tags),l&&k(m,j)};this.onLoad=function(a){j(a,f.LOADED)},this.onError=function(a){j(a,f.ERROR)},this.onTimeout=function(a){j(a,f.TIMEOUT)};var k=function(a,b){var d,e,g,h,i=0,j=0;for(d=0,e=c.length;e>d;d++)g=c[d],h=!1,h=0===b.tags.length?!0:g.resource.tags.intersects(b.tags),h&&(j++,(g.status===f.LOADED||g.status===f.ERROR||g.status===f.TIMEOUT)&&i++);b.callback({resource:a.resource,loaded:a.status===f.LOADED,error:a.status===f.ERROR,timeout:a.status===f.TIMEOUT,completedCount:i,totalCount:j})},l=this.log=function(a){if(window.console){var d=Math.round((Date.now()-b)/1e3);window.console.log("PxLoader elapsed: "+d+" sec");for(var e=0,g=c.length;g>e;e++){var h=c[e];if(a||h.status===f.WAITING){var i="PxLoader: #"+e+" "+h.resource.getName();switch(h.status){case f.QUEUED:i+=" (Not Started)";break;case f.WAITING:i+=" (Waiting)";break;case f.LOADED:i+=" (Loaded)";break;case f.ERROR:i+=" (Error)";break;case f.TIMEOUT:i+=" (Timeout)"}h.resource.tags.length>0&&(i+=" Tags: ["+h.resource.tags.all.join(",")+"]"),window.console.log(i)}}}}}function PxLoaderImage(a,b,c,d){var e=this,f=null;this.img=new Image,void 0!==d&&(this.img.crossOrigin=d),this.tags=b,this.priority=c;var g=function(){"complete"===e.img.readyState&&(j(),f.onLoad(e))},h=function(){j(),f.onLoad(e)},i=function(){j(),f.onError(e)},j=function(){e.unbind("load",h),e.unbind("readystatechange",g),e.unbind("error",i)};this.start=function(b){f=b,e.bind("load",h),e.bind("readystatechange",g),e.bind("error",i),e.img.src=a},this.checkStatus=function(){e.img.complete&&(j(),f.onLoad(e))},this.onTimeout=function(){j(),e.img.complete?f.onLoad(e):f.onTimeout(e)},this.getName=function(){return a},this.bind=function(a,b){e.img.addEventListener?e.img.addEventListener(a,b,!1):e.img.attachEvent&&e.img.attachEvent("on"+a,b)},this.unbind=function(a,b){e.img.removeEventListener?e.img.removeEventListener(a,b,!1):e.img.detachEvent&&e.img.detachEvent("on"+a,b)}}function PxLoaderSound(a,b,c,d){var e=this,f=null,g=navigator.userAgent.match(/(ipad|iphone|ipod)/i),h=navigator.userAgent.match(/android/i);this.useGlobalHTML5Audio=g||h,this.tags=c,this.priority=d,this.sound=soundManager.createSound({id:a,url:b,autoLoad:!1,onload:function(){f.onLoad(e)},onsuspend:function(){f.onTimeout(e)},whileloading:function(){var a=this.bytesLoaded,b=this.bytesTotal;a>0&&a===b&&f.onLoad(e)}}),this.start=function(a){f=a,this.useGlobalHTML5Audio?f.onTimeout(e):this.sound.load()},this.checkStatus=function(){switch(e.sound.readyState){case 0:break;case 1:break;case 2:f.onError(e);break;case 3:f.onLoad(e)}},this.onTimeout=function(){f.onTimeout(e)},this.getName=function(){return b}}function PxLoaderVideo(a,b,c,d){var e=this,f=null;this.readyEventName="canplaythrough";try{this.vid=new Video}catch(g){this.vid=document.createElement("video")}void 0!==d&&(this.vid.crossOrigin=d),this.tags=b,this.priority=c;var h=function(){4===e.vid.readyState&&(k(),f.onLoad(e))},i=function(){k(),f.onLoad(e)},j=function(){k(),f.onError(e)},k=function(){e.unbind("load",i),e.unbind(e.readyEventName,h),e.unbind("error",j)};this.start=function(b){f=b,e.bind("load",i),e.bind(e.readyEventName,h),e.bind("error",j),e.bind("suspend",i),e.vid.src=a,e.vid.load()},this.checkStatus=function(){4===e.vid.readyState&&(k(),f.onLoad(e))},this.onTimeout=function(){k(),4!==e.vid.readyState?f.onLoad(e):f.onTimeout(e)},this.getName=function(){return a},this.bind=function(a,b){e.vid.addEventListener?e.vid.addEventListener(a,b,!1):e.vid.attachEvent&&e.vid.attachEvent("on"+a,b)},this.unbind=function(a,b){e.vid.removeEventListener?e.vid.removeEventListener(a,b,!1):e.vid.detachEvent&&e.vid.detachEvent("on"+a,b)}}PxLoaderTags.prototype.intersects=function(a){if(0===this.length||0===a.length)return!1;if(1===this.length&&1===a.length)return this.first===a.first;if(a.length<this.length)return a.intersects(this);for(var b in this.lookup)if(a.lookup[b])return!0;return!1},"function"==typeof define&&define.amd&&define("PxLoader",[],function(){return PxLoader}),"object"==typeof module&&(module.exports=PxLoader),Date.now||(Date.now=function(){return(new Date).getTime()}),Array.isArray||(Array.isArray=function(a){return"[object Array]"===Object.prototype.toString.call(a)}),PxLoader.prototype.addImage=function(a,b,c,d){var e=new PxLoaderImage(a,b,c,d);return this.add(e),e.img},"function"==typeof define&&define.amd&&define("PxLoaderImage",[],function(){return PxLoaderImage}),PxLoader.prototype.addSound=function(a,b,c,d){var e=new PxLoaderSound(a,b,c,d);return this.add(e),e.sound},"function"==typeof define&&define.amd&&define("PxLoaderSound",[],function(){return PxLoaderSound}),PxLoader.prototype.addVideo=function(a,b,c,d){var e=new PxLoaderVideo(a,b,c,d);return this.add(e),e.vid},"function"==typeof define&&define.amd&&define("PxLoaderVideo",[],function(){return PxLoaderVideo});
+},{}],30:[function(require,module,exports){
 'use strict';
 
 var config = require('./lib/config.js');
@@ -2252,7 +2255,7 @@ var stats = require('./pages/stats.js');
 
 stats.init();
 
-},{"./lib/config.js":30,"./lib/repository":31,"./pages/stats.js":33}],30:[function(require,module,exports){
+},{"./lib/config.js":31,"./lib/repository":32,"./pages/stats.js":34}],31:[function(require,module,exports){
 'use strict';
 
 var config = {
@@ -2263,7 +2266,7 @@ var config = {
 
 module.exports = config;
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 var config = require('./config.js');
@@ -2281,7 +2284,7 @@ var repository = {
     getUserTops: function getUserTops(token) {
         var client = axios.create({
             baseURL: config.base_url,
-            timeout: 1000,
+            timeout: 5000,
             headers: { 'Authorization': 'Bearer ' + token }
         });
 
@@ -2291,7 +2294,7 @@ var repository = {
         };
 
         client.get('me/top/artists', { params: params }).then(function (response) {
-            utils.paint(response);
+            utils.render(response);
         }).catch(function (error) {
             console.log(error);
         });
@@ -2301,12 +2304,16 @@ var repository = {
 
 module.exports = repository;
 
-},{"./config.js":30,"./utils.js":32,"axios":1}],32:[function(require,module,exports){
-"use strict";
+},{"./config.js":31,"./utils.js":33,"axios":1}],33:[function(require,module,exports){
+'use strict';
 
 var Mustache = require('mustache');
+var pxloader = require('pxloader-browserify');
 
 var utils = {
+
+    loader: new pxloader(),
+
     getHashParameter: function getHashParameter(parameter) {
         var result = null;
         var tmp = [];
@@ -2319,13 +2326,13 @@ var utils = {
         return result;
     },
 
-    paint: function paint(tops) {
+    render: function render(tops) {
+        var container = document.getElementById('topContainer');
         var artists = tops.data.items;
+        var html = '';
 
         for (var i = 0; i < artists.length; i++) {
             var artist = artists[i];
-            console.log(artist);
-            var container = document.getElementById('topContainer');
             var template = document.getElementById('artistBoxTemplate').innerHTML;
 
             Mustache.parse(template);
@@ -2337,14 +2344,47 @@ var utils = {
                 position: i + 1
             });
 
-            container.insertAdjacentHTML('beforeend', rendered);
+            this.addImageToLoader(artist.images[0].url);
+
+            html += rendered;
         }
+
+        this.paint();
+        container.insertAdjacentHTML('beforeend', html);
+    },
+
+    addImageToLoader: function addImageToLoader(image) {
+        this.loader.addImage(image);
+    },
+
+    showAnimatedImage: function showAnimatedImage(image, time) {
+        var currentImage = image;
+
+        setTimeout(function () {
+            currentImage.classList.remove('hidden');
+        }, time);
+    },
+
+    paint: function paint() {
+        var self = this;
+
+        this.loader.addCompletionListener(function () {
+            var images = document.getElementsByClassName('js-animated');
+            var time = 0;
+
+            for (var i = 0; i < images.length; i++) {
+                self.showAnimatedImage(images[i], time);
+                time += 50;
+            }
+        });
+
+        this.loader.start();
     }
 };
 
 module.exports = utils;
 
-},{"mustache":27}],33:[function(require,module,exports){
+},{"mustache":27,"pxloader-browserify":29}],34:[function(require,module,exports){
 'use strict';
 
 var utils = require('../lib/utils.js');
@@ -2367,4 +2407,4 @@ var stats = {
 
 module.exports = stats;
 
-},{"../lib/utils.js":32,"./../lib/repository.js":31}]},{},[29]);
+},{"../lib/utils.js":33,"./../lib/repository.js":32}]},{},[30]);

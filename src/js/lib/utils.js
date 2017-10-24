@@ -1,6 +1,10 @@
 const Mustache = require('mustache');
+const pxloader = require('pxloader-browserify');
 
 const utils = {
+
+    loader: new pxloader,
+
     getHashParameter: function(parameter) {
         let result = null;
         let tmp    = [];
@@ -16,14 +20,14 @@ const utils = {
         return result;
     },
 
-    paint: function(tops) {
+    render: function(tops) {
+        let container = document.getElementById('topContainer');
         let artists = tops.data.items;
+        let html = '';
 
         for (let i = 0; i < artists.length; i++) {
-            let artist      = artists[i];
-            console.log(artist);
-            let container   = document.getElementById('topContainer');
-            let template    = document.getElementById('artistBoxTemplate').innerHTML;
+            let artist = artists[i];
+            let template = document.getElementById('artistBoxTemplate').innerHTML;
 
             Mustache.parse(template);
 
@@ -34,8 +38,42 @@ const utils = {
                 position: i + 1
             });
 
-            container.insertAdjacentHTML('beforeend', rendered);
+            this.addImageToLoader(artist.images[0].url);
+
+            html += rendered;
         }
+
+        this.paint();
+        container.insertAdjacentHTML('beforeend', html);
+    },
+
+    addImageToLoader: function(image) {
+        this.loader.addImage(image);
+    },
+
+    showAnimatedImage: function(image, time) {
+        const currentImage = image;
+
+        setTimeout(function() {
+            currentImage.classList.remove('hidden');
+        }, time);
+    },
+
+    paint: function() {
+        const self = this;
+
+        this.loader.addCompletionListener(function() {
+            let images = document.getElementsByClassName('js-animated');
+            let time = 0;
+
+            for (var i = 0; i < images.length; i++) {
+                self.showAnimatedImage(images[i], time);
+                time += 50;
+            }
+
+        });
+
+        this.loader.start();
     }
 };
 

@@ -18,7 +18,7 @@ const repository = {
     getUserTops: function(token) {
         let client = axios.create({
             baseURL: config.base_url,
-            timeout: 1000,
+            timeout: 5000,
             headers: {'Authorization': 'Bearer ' + token}
         });
 
@@ -29,7 +29,7 @@ const repository = {
 
         client.get('me/top/artists', {params: params})
             .then(function (response) {
-                utils.paint(response);
+                utils.render(response);
             })
             .catch(function (error) {
                 console.log(error);

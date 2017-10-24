@@ -1,0 +1,13 @@
+// COMMON/ANIMATIONS
+
+.animated { transition: all .33s ease; }
+
+.hidden {
+    transform: translate(0px, 50px);
+    opacity: 0;
+}
+
+.visible {
+    transform: translate(0px);
+    opacity: 1;
+}

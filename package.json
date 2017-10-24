@@ -9,6 +9,7 @@
     "gulp-uglify": "^3.0.0",
     "gulp-util": "^3.0.8",
     "mustache": "^2.3.0",
+    "pxloader-browserify": "^1.0.2",
     "vinyl-source-stream": "^1.1.0"
   },
   "devDependencies": {

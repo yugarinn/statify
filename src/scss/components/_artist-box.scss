@@ -7,10 +7,11 @@
 
     .artist-box__image {
         overflow: hidden;
+        height: 250px;
 
         img {
             transition: all .33s ease;
-            max-height: 250px;
+            height: 100%;
         }
     }
 
