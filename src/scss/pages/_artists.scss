@@ -2,6 +2,15 @@
 
 .artists {
 
+    .top-text {
+        padding: 0px 40px;
+    }
+
+    .top-text__wrapper {
+        display: inline-block;
+        max-width: 700px;
+    }
+
     .container {
         padding: 30px 0px;
     }

@@ -2370,7 +2370,10 @@ var utils = {
 
         this.loader.addCompletionListener(function () {
             var images = document.getElementsByClassName('js-animated');
+            var preloader = document.getElementById('preloader');
             var time = 0;
+
+            preloader.remove();
 
             for (var i = 0; i < images.length; i++) {
                 self.showAnimatedImage(images[i], time);

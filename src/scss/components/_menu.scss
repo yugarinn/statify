@@ -1,0 +1,12 @@
+// COMPONETS/MENU
+
+.menu {
+    padding: 20px 0px 20px 100px;
+
+    .menu__option {
+        &.selected {
+            color: $green;
+            text-decoration: underline;
+        }
+    }
+}

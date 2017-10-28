@@ -64,7 +64,10 @@ const utils = {
 
         this.loader.addCompletionListener(function() {
             let images = document.getElementsByClassName('js-animated');
+            let preloader = document.getElementById('preloader');
             let time = 0;
+
+            preloader.remove();
 
             for (var i = 0; i < images.length; i++) {
                 self.showAnimatedImage(images[i], time);
