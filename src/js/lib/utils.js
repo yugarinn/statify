@@ -28,17 +28,21 @@ const utils = {
         for (let i = 0; i < artists.length; i++) {
             let artist = artists[i];
             let template = document.getElementById('artistBoxTemplate').innerHTML;
+            let image = artist.images[0];
+            let image_url = '';
+
+            image == undefined ? image_url = 'http://lorempixel.com/400/200' : image_url = image.url;
 
             Mustache.parse(template);
 
             let rendered = Mustache.render(template, {
-                image: artist.images[0].url,
+                image: image_url,
                 name: artist.name,
                 uri: artist.external_urls.spotify,
                 position: i + 1
             });
 
-            this.addImageToLoader(artist.images[0].url);
+            this.addImageToLoader(image_url);
 
             html += rendered;
         }

@@ -2336,17 +2336,21 @@ var utils = {
         for (var i = 0; i < artists.length; i++) {
             var artist = artists[i];
             var template = document.getElementById('artistBoxTemplate').innerHTML;
+            var image = artist.images[0];
+            var image_url = '';
+
+            image == undefined ? image_url = 'http://lorempixel.com/400/200' : image_url = image.url;
 
             Mustache.parse(template);
 
             var rendered = Mustache.render(template, {
-                image: artist.images[0].url,
+                image: image_url,
                 name: artist.name,
                 uri: artist.external_urls.spotify,
                 position: i + 1
             });
 
-            this.addImageToLoader(artist.images[0].url);
+            this.addImageToLoader(image_url);
 
             html += rendered;
         }
