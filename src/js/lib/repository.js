@@ -15,7 +15,7 @@ const repository = {
         window.location.replace(auth_url);
     },
 
-    getUserTops: function(token) {
+    getUserTops: function(token, range = 'long_term') {
         let client = axios.create({
             baseURL: config.base_url,
             timeout: 5000,
@@ -24,7 +24,7 @@ const repository = {
 
         let params = {
             limit: 50,
-            time_range: 'long_term'
+            time_range: range
         };
 
         client.get('me/top/artists', {params: params})

@@ -2282,6 +2282,8 @@ var repository = {
     },
 
     getUserTops: function getUserTops(token) {
+        var range = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'long_term';
+
         var client = axios.create({
             baseURL: config.base_url,
             timeout: 5000,
@@ -2290,7 +2292,7 @@ var repository = {
 
         var params = {
             limit: 50,
-            time_range: 'long_term'
+            time_range: range
         };
 
         client.get('me/top/artists', { params: params }).then(function (response) {
@@ -2373,7 +2375,7 @@ var utils = {
             var preloader = document.getElementById('preloader');
             var time = 0;
 
-            preloader.remove();
+            preloader.style.display = 'none';
 
             for (var i = 0; i < images.length; i++) {
                 self.showAnimatedImage(images[i], time);
@@ -2399,13 +2401,53 @@ var stats = {
             var state = utils.getHashParameter('state');
             var token = utils.getHashParameter('access_token');
 
-            var tops = repository.getUserTops(token);
+            repository.getUserTops(token);
         } else {
             repository.authorize();
         }
+
+        this.initButtonsFilters();
     },
 
-    paint: function paint(tops) {}
+    initButtonsFilters: function initButtonsFilters(tops) {
+        var _this = this;
+
+        var buttons = document.getElementsByClassName('js-button');
+        var classRegEx = new RegExp('(^| )selected($| )', 'g');
+
+        var _loop = function _loop(i) {
+            var self = _this;
+            var button = buttons[i];
+
+            button.addEventListener('click', function () {
+                var filter = this.getAttribute('data-filter');
+                var token = utils.getHashParameter('access_token');
+
+                self.cleanPage();
+                this.className += ' selected';
+                repository.getUserTops(token, filter);
+            });
+        };
+
+        for (var i = 0; i < buttons.length; i++) {
+            _loop(i);
+        }
+    },
+
+    // FIXME
+    cleanPage: function cleanPage() {
+        var container = document.getElementById('topContainer');
+        var preloader = document.getElementById('preloader');
+        var buttons = document.getElementsByClassName('js-button');
+        var classRegEx = new RegExp('(^| )selected($| )', 'g');
+
+        for (var i = 0; i < buttons.length; i++) {
+            buttons[i].className = buttons[i].className.replace(classRegEx, ' ');
+        }
+
+        container.innerHTML = '';
+        preloader.style.display = 'flex';
+    }
 };
 
 module.exports = stats;

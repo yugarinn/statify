@@ -4,9 +4,13 @@
     padding: 20px 0px 20px 100px;
 
     .menu__option {
+        cursor: pointer;
+
         &.selected {
             color: $green;
             text-decoration: underline;
         }
+
+        &:hover { text-decoration: underline; }
     }
 }

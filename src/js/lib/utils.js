@@ -67,7 +67,7 @@ const utils = {
             let preloader = document.getElementById('preloader');
             let time = 0;
 
-            preloader.remove();
+            preloader.style.display = 'none';
 
             for (var i = 0; i < images.length; i++) {
                 self.showAnimatedImage(images[i], time);
