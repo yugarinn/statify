@@ -23,25 +23,33 @@
                     </div>
                 </div>
 
-                <div class="menu">
-                    <div class="menu__options-type mb10">
-                        <span class="menu__option selected js-button">albums</span> |
-                        <span class="menu__option js-button">songs</span>
-                    </div>
-                    <div class="menu__options-time">
-                        <span class="menu__option selected js-button" data-filter="long_term">all time</span> |
-                        <span class="menu__option js-button" data-filter="medium_term">lately</span> |
-                        <span class="menu__option js-button" data-filter="short_term">recently</span>
-                    </div>
+                <div class="authButton--container js-auth-container">
+                    <button class="button" id="authButton">Connect your Spotify account</button>
                 </div>
 
-                <div class="preloader" id="preloader">
-                    <span class="preloader__dot bounce"></span>
-                    <span class="preloader__dot bounce"></span>
-                    <span class="preloader__dot bounce"></span>
-                </div>
+                <div class="stats--container js-stats-container hidden">
 
-                <div class="top-list__container" id="topContainer"></div>
+                    <div class="menu">
+                        <div class="menu__options-type mb10">
+                            <span class="menu__option selected js-button">albums</span> |
+                            <span class="menu__option js-button">songs</span>
+                        </div>
+                        <div class="menu__options-time">
+                            <span class="menu__option selected js-button" data-filter="long_term">all time</span> |
+                            <span class="menu__option js-button" data-filter="medium_term">lately</span> |
+                            <span class="menu__option js-button" data-filter="short_term">recently</span>
+                        </div>
+                    </div>
+
+                    <div class="preloader" id="preloader">
+                        <span class="preloader__dot bounce"></span>
+                        <span class="preloader__dot bounce"></span>
+                        <span class="preloader__dot bounce"></span>
+                    </div>
+
+                    <div class="top-list__container" id="topContainer"></div>
+
+                </div>
 
             </div>
 

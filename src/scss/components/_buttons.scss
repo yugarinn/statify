@@ -1,0 +1,17 @@
+// COMPONENTS/BUTTONS
+
+.button {
+    background-color: $green;
+    color: $white;
+    text-transform: uppercase;
+    border-width: 0px;
+    border-radius: 500px;
+    padding: 10px 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all .33s ease;
+
+    &:hover {
+        background-color: lighten($green, 10);
+    }
+}

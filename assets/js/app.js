@@ -2405,9 +2405,10 @@ var stats = {
             var state = utils.getHashParameter('state');
             var token = utils.getHashParameter('access_token');
 
+            this.showStatsSection();
             repository.getUserTops(token);
         } else {
-            repository.authorize();
+            this.initAuthButton();
         }
 
         this.initButtonsFilters();
@@ -2436,6 +2437,23 @@ var stats = {
         for (var i = 0; i < buttons.length; i++) {
             _loop(i);
         }
+    },
+
+    initAuthButton: function initAuthButton() {
+        var button = document.getElementById('authButton');
+
+        button.addEventListener('click', function () {
+            repository.authorize();
+        });
+    },
+
+    showStatsSection: function showStatsSection() {
+        var section = document.getElementsByClassName('js-stats-container');
+        var authButtonContainer = document.getElementsByClassName('js-auth-container');
+        var classRegEx = new RegExp('(^| )hidden($| )', 'g');
+
+        authButtonContainer[0].remove();
+        section[0].className = section[0].className.replace(classRegEx, ' ');
     },
 
     // FIXME

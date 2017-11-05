@@ -7,9 +7,10 @@ const stats = {
             let state = utils.getHashParameter('state');
             let token = utils.getHashParameter('access_token');
 
+            this.showStatsSection();
             repository.getUserTops(token);
         } else {
-            repository.authorize();
+            this.initAuthButton();
         }
 
         this.initButtonsFilters();
@@ -32,6 +33,23 @@ const stats = {
                 repository.getUserTops(token, filter);
             });
         }
+    },
+
+    initAuthButton: function() {
+        let button = document.getElementById('authButton');
+
+        button.addEventListener('click', function() {
+            repository.authorize();
+        });
+    },
+
+    showStatsSection: function() {
+        let section = document.getElementsByClassName('js-stats-container');
+        let authButtonContainer = document.getElementsByClassName('js-auth-container');
+        let classRegEx = new RegExp('(^| )hidden($| )', 'g');
+
+        authButtonContainer[0].remove();
+        section[0].className = section[0].className.replace(classRegEx, ' ');
     },
 
     // FIXME
