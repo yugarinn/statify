@@ -2405,6 +2405,8 @@ var stats = {
             var state = utils.getHashParameter('state');
             var token = utils.getHashParameter('access_token');
 
+            history.pushState("", document.title, window.location.pathname + window.location.search);
+
             this.showStatsSection();
             repository.getUserTops(token);
         } else {

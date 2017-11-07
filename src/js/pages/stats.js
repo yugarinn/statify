@@ -7,6 +7,9 @@ const stats = {
             let state = utils.getHashParameter('state');
             let token = utils.getHashParameter('access_token');
 
+            // FIXME: this shouldn't be here
+            history.pushState("", document.title, window.location.pathname + window.location.search);
+
             this.showStatsSection();
             repository.getUserTops(token);
         } else {
