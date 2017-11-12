@@ -15,11 +15,11 @@ const repository = {
         window.location.replace(auth_url);
     },
 
-    getUserTops: function(token, range = 'long_term') {
+    getUserTops: function(range = 'long_term') {
         let client = axios.create({
             baseURL: config.base_url,
             timeout: 5000,
-            headers: {'Authorization': 'Bearer ' + token}
+            headers: {'Authorization': 'Bearer ' + config.token}
         });
 
         let params = {

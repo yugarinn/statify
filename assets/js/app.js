@@ -1406,7 +1406,7 @@ module.exports = {
 /*!
  * Determine if an object is a Buffer
  *
- * @author   Feross Aboukhadijeh <feross@feross.org> <http://feross.org>
+ * @author   Feross Aboukhadijeh <https://feross.org>
  * @license  MIT
  */
 
@@ -2251,17 +2251,20 @@ function PxLoaderTags(a){if(this.all=[],this.first=null,this.length=0,this.looku
 
 var config = require('./lib/config.js');
 var repository = require('./lib/repository');
+var utils = require('./lib/utils.js');
 var stats = require('./pages/stats.js');
 
+config.token == undefined ? config.token = utils.getHashParameter('access_token') : config.token = config.token;
 stats.init();
 
-},{"./lib/config.js":31,"./lib/repository":32,"./pages/stats.js":34}],31:[function(require,module,exports){
+},{"./lib/config.js":31,"./lib/repository":32,"./lib/utils.js":33,"./pages/stats.js":34}],31:[function(require,module,exports){
 'use strict';
 
 var config = {
     base_url: 'https://api.spotify.com/v1/',
     client_id: '2e5da53c63514cdd87f600eb18bffe66',
-    client_secret: '2c6103794e824140aacb397dfa8438e0'
+    client_secret: '2c6103794e824140aacb397dfa8438e0',
+    user_token: ''
 };
 
 module.exports = config;
@@ -2281,13 +2284,13 @@ var repository = {
         window.location.replace(auth_url);
     },
 
-    getUserTops: function getUserTops(token) {
-        var range = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'long_term';
+    getUserTops: function getUserTops() {
+        var range = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'long_term';
 
         var client = axios.create({
             baseURL: config.base_url,
             timeout: 5000,
-            headers: { 'Authorization': 'Bearer ' + token }
+            headers: { 'Authorization': 'Bearer ' + config.token }
         });
 
         var params = {
@@ -2396,19 +2399,20 @@ module.exports = utils;
 },{"mustache":27,"pxloader-browserify":29}],34:[function(require,module,exports){
 'use strict';
 
-var utils = require('../lib/utils.js');
+var config = require('./../lib/config.js');
+var utils = require('./../lib/utils.js');
 var repository = require('./../lib/repository.js');
 
 var stats = {
     init: function init() {
         if (utils.getHashParameter('token_type')) {
             var state = utils.getHashParameter('state');
-            var token = utils.getHashParameter('access_token');
 
+            // FIXME: this shouldn't be here
             history.pushState("", document.title, window.location.pathname + window.location.search);
 
             this.showStatsSection();
-            repository.getUserTops(token);
+            repository.getUserTops();
         } else {
             this.initAuthButton();
         }
@@ -2428,11 +2432,10 @@ var stats = {
 
             button.addEventListener('click', function () {
                 var filter = this.getAttribute('data-filter');
-                var token = utils.getHashParameter('access_token');
 
                 self.cleanPage();
                 this.className += ' selected';
-                repository.getUserTops(token, filter);
+                repository.getUserTops(filter);
             });
         };
 
@@ -2476,4 +2479,4 @@ var stats = {
 
 module.exports = stats;
 
-},{"../lib/utils.js":33,"./../lib/repository.js":32}]},{},[30]);
+},{"./../lib/config.js":31,"./../lib/repository.js":32,"./../lib/utils.js":33}]},{},[30]);

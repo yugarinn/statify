@@ -1,17 +1,17 @@
-const utils      = require('../lib/utils.js');
+const config     = require('./../lib/config.js');
+const utils      = require('./../lib/utils.js');
 const repository = require('./../lib/repository.js');
 
 const stats = {
     init: function() {
         if (utils.getHashParameter('token_type')) {
             let state = utils.getHashParameter('state');
-            let token = utils.getHashParameter('access_token');
 
             // FIXME: this shouldn't be here
             history.pushState("", document.title, window.location.pathname + window.location.search);
 
             this.showStatsSection();
-            repository.getUserTops(token);
+            repository.getUserTops();
         } else {
             this.initAuthButton();
         }
@@ -29,11 +29,10 @@ const stats = {
 
             button.addEventListener('click', function() {
                 let filter = this.getAttribute('data-filter');
-                let token = utils.getHashParameter('access_token');
 
                 self.cleanPage();
                 this.className += ' selected';
-                repository.getUserTops(token, filter);
+                repository.getUserTops(filter);
             });
         }
     },
