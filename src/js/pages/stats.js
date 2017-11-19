@@ -3,6 +3,10 @@ const utils      = require('./../lib/utils.js');
 const repository = require('./../lib/repository.js');
 
 const stats = {
+
+    filter: 'long_term',
+    type: 'artists',
+
     init: function() {
         if (utils.getHashParameter('token_type')) {
             let state = utils.getHashParameter('state');
@@ -17,6 +21,7 @@ const stats = {
         }
 
         this.initButtonsFilters();
+        this.initButtonsTypes();
     },
 
     initButtonsFilters: function(tops) {
@@ -28,13 +33,31 @@ const stats = {
             let button = buttons[i];
 
             button.addEventListener('click', function() {
-                let filter = this.getAttribute('data-filter');
-
+                self.filter = this.getAttribute('data-filter');
                 self.cleanPage();
                 this.className += ' selected';
-                repository.getUserTops(filter);
+                repository.getUserTops(self.filter, self.type);
             });
         }
+    },
+
+    initButtonsTypes: function() {
+        let buttons = document.getElementsByClassName('js-button-type');
+        let classRegEx = new RegExp('(^| )selected($| )','g');
+        console.log('init buttons!');
+
+        for (let i = 0; i < buttons.length; i++) {
+            const self = this;
+            let button = buttons[i];
+
+            button.addEventListener('click', function() {
+                self.type = this.getAttribute('data-type');
+                self.cleanPage();
+                this.className += 'selected';
+                repository.getUserTops(self.filter, self.type);
+            })
+        }
+
     },
 
     initAuthButton: function() {

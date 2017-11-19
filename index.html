@@ -35,6 +35,11 @@
                             <span class="menu__option js-button" data-filter="medium_term">lately</span> |
                             <span class="menu__option js-button" data-filter="short_term">recently</span>
                         </div>
+
+                        <div class="menu__options-type">
+                            <span class="menu__option selected js-button-type" data-type="artists">artists</span> |
+                            <span class="menu__option js-button-type" data-type="tracks">tracks</span>
+                        </div>
                     </div>
 
                     <div class="preloader" id="preloader">
@@ -62,6 +67,21 @@
                 <div class="artist-box__info">
                     <span class="artist-box__info-number">{{ position }}</span> <span class="artist-box__info-separator">/</span>
                     <span class="artist-box__info-name">{{ name }}</span>
+                </div>
+            </div>
+        </a>
+    </script>
+
+    <script id="tracksBoxTemplate" type="x-tmpl-mustache">
+        <a href="{{ uri }}" target="_blank" rel="noopener" class="animated hidden js-animated">
+            <div class="track-box mb10 mr10">
+                <div class="track-box__image">
+                    <img src="{{ image }}" alt="{{ name }}">
+                </div>
+                <div class="track-box__info">
+                    <span class="track-box__info-number">{{ position }}</span> <span class="track-box__info-separator">/</span>
+                    <span class="track-box__info-name">{{ name }}</span> - 
+                    <span class="track-box__info-artist">[{{ artist }}]</span>
                 </div>
             </div>
         </a>

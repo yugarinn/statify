@@ -21,13 +21,19 @@ const utils = {
     },
 
     render: function(tops) {
-        let container = document.getElementById('topContainer');
-        let artists = tops.data.items;
+        const items = tops.data.items;
+
+        items[0].type == 'artist' ? this.renderArtists(items) : this.renderTracks(items);
+    },
+
+    renderArtists: function(artists) {
+        console.log('rendering artists...');
+        const container = document.getElementById('topContainer');
+        const template = document.getElementById('artistBoxTemplate').innerHTML;
         let html = '';
 
         for (let i = 0; i < artists.length; i++) {
             let artist = artists[i];
-            let template = document.getElementById('artistBoxTemplate').innerHTML;
             let image = artist.images[0];
             let image_url = '';
 
@@ -39,6 +45,38 @@ const utils = {
                 image: image_url,
                 name: artist.name,
                 uri: artist.external_urls.spotify,
+                position: i + 1
+            });
+
+            this.addImageToLoader(image_url);
+
+            html += rendered;
+        }
+
+        this.paint();
+        container.insertAdjacentHTML('beforeend', html);
+    },
+
+    renderTracks: function(tracks) {
+        console.log('rendering tracks...');
+        const container = document.getElementById('topContainer');
+        const template = document.getElementById('tracksBoxTemplate').innerHTML;
+        let html = '';
+
+        for (let i = 0; i < tracks.length; i++) {
+            let track = tracks[i];
+            let image = track.album.images[0];
+            let image_url = '';
+
+            image == undefined ? image_url = 'http://lorempixel.com/400/200' : image_url = image.url;
+
+            Mustache.parse(template);
+
+            let rendered = Mustache.render(template, {
+                image: image_url,
+                name: track.name,
+                artist: track.artists[0].name,
+                uri: track.external_urls.spotify,
                 position: i + 1
             });
 

@@ -2285,7 +2285,8 @@ var repository = {
     },
 
     getUserTops: function getUserTops() {
-        var range = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'long_term';
+        var filter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'long_term';
+        var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 'artists';
 
         var client = axios.create({
             baseURL: config.base_url,
@@ -2295,10 +2296,10 @@ var repository = {
 
         var params = {
             limit: 50,
-            time_range: range
+            time_range: filter
         };
 
-        client.get('me/top/artists', { params: params }).then(function (response) {
+        client.get('me/top/' + type, { params: params }).then(function (response) {
             utils.render(response);
         }).catch(function (error) {
             console.log(error);
@@ -2332,13 +2333,19 @@ var utils = {
     },
 
     render: function render(tops) {
+        var items = tops.data.items;
+
+        items[0].type == 'artist' ? this.renderArtists(items) : this.renderTracks(items);
+    },
+
+    renderArtists: function renderArtists(artists) {
+        console.log('rendering artists...');
         var container = document.getElementById('topContainer');
-        var artists = tops.data.items;
+        var template = document.getElementById('artistBoxTemplate').innerHTML;
         var html = '';
 
         for (var i = 0; i < artists.length; i++) {
             var artist = artists[i];
-            var template = document.getElementById('artistBoxTemplate').innerHTML;
             var image = artist.images[0];
             var image_url = '';
 
@@ -2350,6 +2357,38 @@ var utils = {
                 image: image_url,
                 name: artist.name,
                 uri: artist.external_urls.spotify,
+                position: i + 1
+            });
+
+            this.addImageToLoader(image_url);
+
+            html += rendered;
+        }
+
+        this.paint();
+        container.insertAdjacentHTML('beforeend', html);
+    },
+
+    renderTracks: function renderTracks(tracks) {
+        console.log('rendering tracks...');
+        var container = document.getElementById('topContainer');
+        var template = document.getElementById('tracksBoxTemplate').innerHTML;
+        var html = '';
+
+        for (var i = 0; i < tracks.length; i++) {
+            var track = tracks[i];
+            var image = track.album.images[0];
+            var image_url = '';
+
+            image == undefined ? image_url = 'http://lorempixel.com/400/200' : image_url = image.url;
+
+            Mustache.parse(template);
+
+            var rendered = Mustache.render(template, {
+                image: image_url,
+                name: track.name,
+                artist: track.artists[0].name,
+                uri: track.external_urls.spotify,
                 position: i + 1
             });
 
@@ -2404,6 +2443,10 @@ var utils = require('./../lib/utils.js');
 var repository = require('./../lib/repository.js');
 
 var stats = {
+
+    filter: 'long_term',
+    type: 'artists',
+
     init: function init() {
         if (utils.getHashParameter('token_type')) {
             var state = utils.getHashParameter('state');
@@ -2418,6 +2461,7 @@ var stats = {
         }
 
         this.initButtonsFilters();
+        this.initButtonsTypes();
     },
 
     initButtonsFilters: function initButtonsFilters(tops) {
@@ -2431,16 +2475,39 @@ var stats = {
             var button = buttons[i];
 
             button.addEventListener('click', function () {
-                var filter = this.getAttribute('data-filter');
-
+                self.filter = this.getAttribute('data-filter');
                 self.cleanPage();
                 this.className += ' selected';
-                repository.getUserTops(filter);
+                repository.getUserTops(self.filter, self.type);
             });
         };
 
         for (var i = 0; i < buttons.length; i++) {
             _loop(i);
+        }
+    },
+
+    initButtonsTypes: function initButtonsTypes() {
+        var _this2 = this;
+
+        var buttons = document.getElementsByClassName('js-button-type');
+        var classRegEx = new RegExp('(^| )selected($| )', 'g');
+        console.log('init buttons!');
+
+        var _loop2 = function _loop2(i) {
+            var self = _this2;
+            var button = buttons[i];
+
+            button.addEventListener('click', function () {
+                self.type = this.getAttribute('data-type');
+                self.cleanPage();
+                this.className += 'selected';
+                repository.getUserTops(self.filter, self.type);
+            });
+        };
+
+        for (var i = 0; i < buttons.length; i++) {
+            _loop2(i);
         }
     },
 

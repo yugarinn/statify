@@ -1,0 +1,61 @@
+// COMPONENTS/TRACK-BOX
+
+.track-box {
+    background-color: $black;
+    transition: all .15s ease;
+
+
+    .track-box__image {
+        overflow: hidden;
+        height: 250px;
+
+        img {
+            transition: all .33s ease;
+            height: 100%;
+        }
+    }
+
+    .track-box__info { padding: 20px; }
+
+    .track-box__info-number {
+        color: $light-grey;
+    }
+
+    .track-box__info-artist {
+        text-decoration: none;
+        color: $light-grey;
+
+        &:hover { color: $white; }
+    }
+
+    .track-box__info-name {
+        text-decoration: none;
+        color: $white;
+
+        &:hover {
+            text-decoration: underline;
+            color: $green;
+        }
+    }
+
+    .track-box__info-separator {
+        padding: 0px 10px;
+        font-size: 20px;
+        color: $grey;
+    }
+
+    &:hover {
+        cursor: pointer;
+
+        img { transform: scale(1.03); }
+
+        .track-box__info-number { color: $white; }
+
+        .track-box__info-artist { color: $white; }
+
+        .track-box__info-name {
+            color: $green;
+            text-decoration: underline;
+        }
+    }
+}
