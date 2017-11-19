@@ -46,12 +46,14 @@ const stats = {
     },
 
     showStatsSection: function() {
-        let section = document.getElementsByClassName('js-stats-container');
-        let authButtonContainer = document.getElementsByClassName('js-auth-container');
+        let section = document.querySelector('.js-stats-container');
+        let authButtonContainer = document.querySelector('.js-auth-container');
+        let claimContainer = document.querySelector('.js-claim-text');
         let classRegEx = new RegExp('(^| )hidden($| )', 'g');
 
-        authButtonContainer[0].remove();
-        section[0].className = section[0].className.replace(classRegEx, ' ');
+        authButtonContainer.remove();
+        claimContainer.remove();
+        section.className = section.className.replace(classRegEx, ' ');
     },
 
     // FIXME

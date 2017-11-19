@@ -2453,12 +2453,14 @@ var stats = {
     },
 
     showStatsSection: function showStatsSection() {
-        var section = document.getElementsByClassName('js-stats-container');
-        var authButtonContainer = document.getElementsByClassName('js-auth-container');
+        var section = document.querySelector('.js-stats-container');
+        var authButtonContainer = document.querySelector('.js-auth-container');
+        var claimContainer = document.querySelector('.js-claim-text');
         var classRegEx = new RegExp('(^| )hidden($| )', 'g');
 
-        authButtonContainer[0].remove();
-        section[0].className = section[0].className.replace(classRegEx, ' ');
+        authButtonContainer.remove();
+        claimContainer.remove();
+        section.className = section.className.replace(classRegEx, ' ');
     },
 
     // FIXME
