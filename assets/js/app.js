@@ -2477,6 +2477,10 @@ var stats = {
             button.addEventListener('click', function () {
                 self.filter = this.getAttribute('data-filter');
                 self.cleanPage();
+                // FIXME
+                for (var _i = 0; _i < buttons.length; _i++) {
+                    buttons[_i].className = buttons[_i].className.replace(classRegEx, ' ');
+                }
                 this.className += ' selected';
                 repository.getUserTops(self.filter, self.type);
             });
@@ -2501,7 +2505,11 @@ var stats = {
             button.addEventListener('click', function () {
                 self.type = this.getAttribute('data-type');
                 self.cleanPage();
-                this.className += 'selected';
+                // FIXME
+                for (var _i2 = 0; _i2 < buttons.length; _i2++) {
+                    buttons[_i2].className = buttons[_i2].className.replace(classRegEx, ' ');
+                }
+                this.className += ' selected';
                 repository.getUserTops(self.filter, self.type);
             });
         };
@@ -2534,12 +2542,7 @@ var stats = {
     cleanPage: function cleanPage() {
         var container = document.getElementById('topContainer');
         var preloader = document.getElementById('preloader');
-        var buttons = document.getElementsByClassName('js-button');
         var classRegEx = new RegExp('(^| )selected($| )', 'g');
-
-        for (var i = 0; i < buttons.length; i++) {
-            buttons[i].className = buttons[i].className.replace(classRegEx, ' ');
-        }
 
         container.innerHTML = '';
         preloader.style.display = 'flex';

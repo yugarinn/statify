@@ -35,6 +35,10 @@ const stats = {
             button.addEventListener('click', function() {
                 self.filter = this.getAttribute('data-filter');
                 self.cleanPage();
+                // FIXME
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].className = buttons[i].className.replace(classRegEx,' ');
+                }
                 this.className += ' selected';
                 repository.getUserTops(self.filter, self.type);
             });
@@ -53,7 +57,11 @@ const stats = {
             button.addEventListener('click', function() {
                 self.type = this.getAttribute('data-type');
                 self.cleanPage();
-                this.className += 'selected';
+                // FIXME
+                for (let i = 0; i < buttons.length; i++) {
+                    buttons[i].className = buttons[i].className.replace(classRegEx,' ');
+                }
+                this.className += ' selected';
                 repository.getUserTops(self.filter, self.type);
             })
         }
@@ -83,12 +91,7 @@ const stats = {
     cleanPage: function() {
         let container = document.getElementById('topContainer');
         let preloader = document.getElementById('preloader');
-        let buttons = document.getElementsByClassName('js-button');
         let classRegEx = new RegExp('(^| )selected($| )','g');
-
-        for (let i = 0; i < buttons.length; i++) {
-            buttons[i].className = buttons[i].className.replace(classRegEx,' ');
-        }
 
         container.innerHTML = '';
         preloader.style.display = 'flex';
