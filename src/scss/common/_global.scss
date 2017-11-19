@@ -25,3 +25,10 @@ a:visited {
     color: $white;
     text-decoration: none;
 }
+
+.page { padding-top: 50px; }
+
+.container {
+    max-width: 1200px;
+    display: inline;
+}
