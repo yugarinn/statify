@@ -22,7 +22,9 @@
     }
 
     .track-box__info-artist {
+        display: block;
         text-decoration: none;
+        padding-left: 40px;
         color: $light-grey;
 
         &:hover { color: $white; }
