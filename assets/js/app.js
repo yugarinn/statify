@@ -2483,6 +2483,7 @@ var stats = {
                 }
                 this.className += ' selected';
                 repository.getUserTops(self.filter, self.type);
+                self.handleTitleListener(self.filter, self.type);
             });
         };
 
@@ -2496,7 +2497,6 @@ var stats = {
 
         var buttons = document.getElementsByClassName('js-button-type');
         var classRegEx = new RegExp('(^| )selected($| )', 'g');
-        console.log('init buttons!');
 
         var _loop2 = function _loop2(i) {
             var self = _this2;
@@ -2511,11 +2511,37 @@ var stats = {
                 }
                 this.className += ' selected';
                 repository.getUserTops(self.filter, self.type);
+                self.handleTitleListener(self.filter, self.type);
             });
         };
 
         for (var i = 0; i < buttons.length; i++) {
             _loop2(i);
+        }
+    },
+
+    handleTitleListener: function handleTitleListener(filter, type) {
+        var typeSpan = document.querySelector('.js-title-type');
+        var filterSpan = document.querySelector('.js-title-filter');
+
+        switch (filter) {
+            case 'long_term':
+                filterSpan.innerHTML = 'of all time';
+                break;
+            case 'medium_term':
+                filterSpan.innerHTML = 'from the last 6 months';
+                break;
+            case 'short_term':
+                filterSpan.innerHTML = 'from the last 4 weeks';
+        }
+
+        switch (type) {
+            case 'artists':
+                typeSpan.innerHTML = 'artists';
+                break;
+            case 'tracks':
+                typeSpan.innerHTML = 'tracks';
+                break;
         }
     },
 
