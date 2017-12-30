@@ -2,4 +2,8 @@
 
 .section__title {
     padding-left: 100px;
+
+    @media (max-width: $screen-xs-min) {
+        padding-left: 30px;
+    }
 }

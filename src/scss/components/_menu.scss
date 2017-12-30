@@ -3,6 +3,10 @@
 .menu {
     padding: 20px 0px 20px 100px;
 
+    @media (max-width: $screen-xs-min) {
+        padding-left: 30px;
+    }
+
     .menu__option {
         cursor: pointer;
 
