@@ -81,9 +81,14 @@
                     <img src="{{ image }}" alt="{{ name }}">
                 </div>
                 <div class="track-box__info">
-                    <span class="track-box__info-number">{{ position }}</span> <span class="track-box__info-separator">/</span>
-                    <span class="track-box__info-name">{{ name }}</span>
-                    <span class="track-box__info-artist">{{ artist }}</span>
+                    <div class="track-box__info-left">
+                        <span class="track-box__info-number">{{ position }}</span> <span class="track-box__info-separator">/</span>
+                    </div>
+
+                    <div class="track-box__info-right">
+                        <span class="track-box__info-name">{{ name }}</span>
+                        <span class="track-box__info-artist">{{ artist }}</span>
+                    </div>
                 </div>
             </div>
         </a>

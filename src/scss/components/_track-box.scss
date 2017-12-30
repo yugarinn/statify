@@ -4,7 +4,6 @@
     background-color: $black;
     transition: all .15s ease;
 
-
     .track-box__image {
         overflow: hidden;
         height: 250px;
@@ -15,7 +14,19 @@
         }
     }
 
-    .track-box__info { padding: 20px; }
+    .track-box__info {
+        padding: 20px;
+        overflow: auto;
+    }
+
+    .track-box__info-right,
+    .track-box__info-left {
+        float: left;
+    }
+
+    .track-box__info-left { width: 23%; }
+
+    .track-box__info-right { width: 77%; }
 
     .track-box__info-number {
         color: $light-grey;
@@ -24,7 +35,6 @@
     .track-box__info-artist {
         display: block;
         text-decoration: none;
-        padding-left: 40px;
         color: $light-grey;
 
         &:hover { color: $white; }
