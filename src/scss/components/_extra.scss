@@ -1,0 +1,16 @@
+// COMPONENTS/EXTRA
+
+.extra {
+    padding: 5px 10px;
+    text-align: right;
+
+    .extra__link {
+        font-size: 11px;
+        cursor: pointer;
+
+        &:hover {
+            text-decoration: underline;
+            color: $green;
+        }
+    }
+}
