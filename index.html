@@ -15,7 +15,7 @@
     <div id="app">
 
         <div class="extra">
-            <span class="extra__link" href="">about</span> /
+            <span class="extra__link js-extra-link" href="">about</span> /
             <a class="extra__link" href="https://github.com/sergiouve/statify" rel="noopener" target="_blank" >source code</a>
         </div>
 
@@ -65,6 +65,34 @@
 
         </div>
 
+    </div>
+
+    <div id="modal" class="modal">
+        <span class="pull-right modal__close js-modal-close">close</span>
+        <h2>About</h2>
+        <p>This is just a simple webapp to get a nice overview of your personal user stats accesible via the Spotify API. Once you click on the "Check stats" button you'll be redirectioned to Spotify to login into your account (unless you're already logged in the browser) and right after that you should see all of your personal stats. Kinda cool.</p>
+        <p>It's not associated with Spotify by any means.</p>
+
+        <div class="modal__faq">
+            <h2>FAQ</h2>
+            <p><strong>Q: </strong> Are you collecting any personal data?</p>
+            <p class="mb10"><strong>A: </strong> No</p>
+            <p><strong>Q: </strong> Do you know how to cook fried egss without burning yourself?</p>
+            <p class="mb10"><strong>A: </strong> No</p>
+            <p><strong>Q: </strong> What's your favourite videogame?</p>
+            <p><strong>A: </strong> Probably Monkey Island 2 Lechuck's Revenge, you should check it out.</p>
+        </div>
+
+        <div class="modal__open-source">
+            <h2>Built with</h2>
+            <ul>
+                <li><a href="https://github.com/axios/axios" rel="noopener" target="_blank">Axios</a></li>
+                <li><a href="https://github.com/thinkpixellab/PxLoader" rel="noopener" target="_blank">PxLoader</a></li>
+                <li><a href="https://github.com/browserify/browserify" rel="noopener" target="_blank">Browserify</a></li>
+                <li><a href="https://github.com/janl/mustache.js" rel="noopener" target="_blank" >Mustache</a></li>
+                <li><a href="https://github.com/gulpjs/gulp" rel="noopener" target="_blank">Gulp</a></li>
+            </ul>
+        </div>
     </div>
 
     <script id="artistBoxTemplate" type="x-tmpl-mustache">

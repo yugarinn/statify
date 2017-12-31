@@ -1,0 +1,54 @@
+// COMPONENTS/MODAL
+
+.modal {
+    position: absolute;
+    top: -500px;
+    left: 0;
+    right: 0;
+    height: auto;
+    width: 50%;
+    margin: 0 auto;
+    padding: 30px 50px;
+    background-color: $grey;
+    opacity: 0;
+    transition: all .33s ease;
+    z-index: 99;
+
+    .modal__close {
+        position: absolute;
+        top: 10px;
+        right: 20px;
+        font-size: 12px;
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover { text-decoration: none; }
+    }
+
+    h2 { color: $green; }
+
+    @media (max-width: $screen-xs-min) {
+        width: 70%;
+    }
+
+    &.open {
+        top: 150px;
+        opacity: 1;
+    }
+
+    .modal__faq {
+        p { margin: 5px 0px; }
+    }
+
+    .modal__open-source {
+        ul {
+            list-style-type: none;
+            padding-left: 0px;
+        }
+
+        a {
+            color: $green;
+            text-decoration: underline;
+        }
+    }
+}

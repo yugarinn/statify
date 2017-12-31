@@ -20,6 +20,7 @@ const stats = {
             this.initAuthButton();
         }
 
+        this.initAboutModal();
         this.initButtonsFilters();
         this.initButtonsTypes();
     },
@@ -121,6 +122,21 @@ const stats = {
 
         container.innerHTML = '';
         preloader.style.display = 'flex';
+    },
+
+    initAboutModal: function() {
+        let modalButton = document.querySelector('.js-extra-link');
+        let closeModalButton = document.querySelector('.js-modal-close');
+        let modal = document.getElementById('modal');
+
+        // TODO: make this smarter for fucks sake
+        modalButton.addEventListener('click', function() {
+            modal.classList.toggle('open');
+        });
+
+        closeModalButton.addEventListener('click', function() {
+            modal.classList.toggle('open');
+        })
     }
 };
 

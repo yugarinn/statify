@@ -2460,6 +2460,7 @@ var stats = {
             this.initAuthButton();
         }
 
+        this.initAboutModal();
         this.initButtonsFilters();
         this.initButtonsTypes();
     },
@@ -2572,6 +2573,21 @@ var stats = {
 
         container.innerHTML = '';
         preloader.style.display = 'flex';
+    },
+
+    initAboutModal: function initAboutModal() {
+        var modalButton = document.querySelector('.js-extra-link');
+        var closeModalButton = document.querySelector('.js-modal-close');
+        var modal = document.getElementById('modal');
+
+        // TODO: make this smarter for fucks sake
+        modalButton.addEventListener('click', function () {
+            modal.classList.toggle('open');
+        });
+
+        closeModalButton.addEventListener('click', function () {
+            modal.classList.toggle('open');
+        });
     }
 };
 
