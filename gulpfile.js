@@ -32,10 +32,11 @@ gulp.task('serve', shell.task([
 ]))
 
 gulp.task('watch', () => {
-  gulp.watch('./src/js/*/*.js', gulp.series('browserify'))
+    gulp.watch('./src/js/*/*.js', gulp.series('browserify'))
     gulp.watch('./src/js/*.js', gulp.series('browserify'))
     gulp.watch('./src/scss/*/*.scss', gulp.series('sass'))
     gulp.watch('./src/scss/*.scss', gulp.series('sass'))
+    gulp.watch('./index.html', gulp.series('cp'))
 })
 
 gulp.task('default', gulp.series(['browserify', 'sass', 'cp', 'serve', 'watch']))

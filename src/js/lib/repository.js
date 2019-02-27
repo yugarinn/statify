@@ -4,7 +4,7 @@ const utils  = require('./utils.js');
 
 const repository = {
 
-    authorize: function() {
+    authenticate: () => {
         let auth_url = 'https://accounts.spotify.com/authorize?' +
             'client_id=' + config.client_id +
             '&response_type=' + 'token' +
@@ -15,7 +15,7 @@ const repository = {
         window.location.replace(auth_url);
     },
 
-    getUserTops: function(filter = 'long_term', type = 'artists') {
+    getUserTops: (filter = 'long_term', type = 'artists') => {
         let client = axios.create({
             baseURL: config.base_url,
             timeout: 5000,

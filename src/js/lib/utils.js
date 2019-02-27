@@ -5,9 +5,11 @@ const utils = {
 
     loader: new pxloader,
 
-    getHashParameter: function(parameter) {
+    getCurrentUrlHashParameter: function(parameter) {
         let result = null;
         let tmp    = [];
+
+        console.log(location.hash);
 
         location.hash
             .substr(1)
